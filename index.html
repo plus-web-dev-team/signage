@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>レスポンシブ対応クリッカブルマップ</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="responsive-container">
+      <img src="img/menu.webp" alt="" id="responsiveImage" usemap="#ImageMap" />
+      <div class="blink-overlay"></div>
+    </div>
+    <map name="ImageMap">
+      <area shape="rect" coords="665,83,1087,214" href="#" alt="ボタン1" />
+      <area shape="rect" coords="1158,83,1580,213" href="#" alt="ボタン2" />
+      <area shape="rect" coords="1651,83,2071,215" href="#" alt="ボタン3" />
+      <area shape="rect" coords="399,1233,671,1292" href="#" alt="ボタン4" />
+      <area shape="rect" coords="1605,1662,1877,1719" href="#" alt="ボタン5" />
+      <area shape="circle" coords="1961,3625,173" href="#" alt="ボタン6" />
+    </map>
+    <script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
