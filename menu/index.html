@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF.js Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <style>
+      #pdf-canvas {
+        border: 1px solid black;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PDF.jsを使用したPDF表示</h1>
+    <canvas id="pdf-canvas"></canvas>
+    <button id="prev">前のページ</button>
+    <button id="next">次のページ</button>
+    <div id="page-indicator">ページ: 1 / <span id="total-pages"></span></div>
+    <!-- ページインジケーターを追加 -->
+    <script src="../js/pdf-viewer.js"></script>
+  </body>
+</html>

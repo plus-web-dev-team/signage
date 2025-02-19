@@ -1,13 +1,13 @@
-imageMapResize();
+window.addEventListener("load", () => {
+	imageMapResize(); // 画像が読み込まれた後に呼び出す
+	createBlinkAreas(); // その後にblinkエリアを作成
+	updateBlinkPositions(); // 初期位置を設定
+});
 
 const originalImageWidth = 2160;
 const originalCoordinates = [
-	{ top: 83, left: 665, width: 422, height: 131 },
-	{ top: 83, left: 1158, width: 422, height: 131 },
-	{ top: 83, left: 1651, width: 422, height: 131 },
-	{ top: 1233, left: 399, width: 272, height: 59 },
-	{ top: 1662, left: 1605, width: 272, height: 57 },
-	{ top: 3452, left: 1788, width: 346, height: 346 },
+	{ top: 1475 - 264, left: 1960 - 264, width: 2 * 264, height: 2 * 264 }, // 英語メニュー
+	{ top: 1915 - 262, left: 1960 - 262, width: 2 * 262, height: 2 * 262 }, // 中国語メニュー
 ];
 
 const blinkOverlay = document.querySelector(".blink-overlay");
@@ -17,8 +17,9 @@ function createBlinkAreas() {
 	originalCoordinates.forEach((coords, index) => {
 		const blinkElement = document.createElement("div");
 		blinkElement.classList.add("blink", `blink${index + 1}`);
-		if (index === 5) {
-			blinkElement.classList.add("blink6");
+		if (index === 0 || index === 1) {
+			// 英語と中国語メニューを光らせる
+			blinkElement.classList.add("highlight"); // 光るクラスを追加
 		}
 		blinkOverlay.appendChild(blinkElement);
 	});
@@ -37,6 +38,4 @@ function updateBlinkPositions() {
 	});
 }
 
-createBlinkAreas();
 window.addEventListener("resize", updateBlinkPositions);
-window.addEventListener("load", updateBlinkPositions);
