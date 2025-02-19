@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turn.jsを使用したPDF表示</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQueryを追加 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    <style>
+      #flipbook {
+        width: 100%;
+        height: auto;
+      }
+      .page {
+        width: 100%;
+        height: auto;
+        background: #fff;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Turn.jsを使用したPDF表示</h1>
+    <div id="flipbook">
+      <!-- ページがここに追加される -->
+    </div>
+    <script src="../js/turn-pdf-viewer.js"></script>
+  </body>
+</html>
