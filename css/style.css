@@ -5,12 +5,6 @@
 	overflow-x: hidden;
 }
 
-.responsive-container img {
-	width: 100%;
-	height: auto;
-	display: block;
-}
-
 .blink-overlay {
 	position: absolute;
 	top: 0;
@@ -19,6 +13,10 @@
 	height: 100%;
 	pointer-events: none;
 	z-index: 10;
+}
+.responsiveImage {
+	position: relative;
+	z-index: 1;
 }
 
 .blink {
@@ -56,4 +54,94 @@
 	100% {
 		opacity: 1;
 	}
+}
+
+.upper-menu {
+	width: 600px;
+	height: 600px;
+	position: absolute;
+	z-index: 99;
+	top: 30%;
+	right: -3%;
+	transform: translate(3%, -30%);
+}
+
+.down-menu {
+	width: 600px;
+	height: 600px;
+	position: absolute;
+	z-index: 99;
+	top: 45%;
+	right: -3%;
+	transform: translate(3%, -45%);
+}
+
+.runch-menu {
+	width: 711px;
+	height: 90px;
+	position: absolute;
+	z-index: 99;
+	bottom: 10%;
+	left: 14%;
+	transform: translate(-14%, -10%);
+}
+
+.night-menu {
+	width: 711px;
+	height: 90px;
+	position: absolute;
+	z-index: 99;
+	bottom: 10%;
+	right: 6.5%;
+	transform: translate(-6.5%, -10%);
+}
+
+.side-menu {
+	width: 285px;
+	height: 285px;
+	position: absolute;
+	z-index: 99;
+	bottom: 1%;
+	right: 1%;
+	transform: translate(-1%, -1%);
+}
+
+.for_ramen {
+	width: 326px;
+	height: 326px;
+	position: absolute;
+	z-index: 99;
+	top: 60%;
+	right: 0;
+	transform: translate(0%, -60%);
+}
+
+.for_side_dish {
+	width: 326px;
+	height: 326px;
+	position: absolute;
+	z-index: 99;
+	top: 70%;
+	right: 0;
+	transform: translate(0%, -70%);
+}
+
+.for_spicy_ramen {
+	width: 326px;
+	height: 326px;
+	position: absolute;
+	z-index: 99;
+	top: 80%;
+	right: 0;
+	transform: translate(0%, -80%);
+}
+
+.for_drinks {
+	width: 326px;
+	height: 326px;
+	position: absolute;
+	z-index: 99;
+	top: 90%;
+	right: 0;
+	transform: translate(0%, -90%);
 }

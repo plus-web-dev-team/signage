@@ -8,25 +8,73 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <header>
+      <img src="img/header.svg" alt="" />
+    </header>
     <div class="responsive-container">
-      <img src="img/ch.webp" alt="" id="responsiveImage" usemap="#ImageMap" />
-      <div class="blink-overlay"></div>
+      <img src="img/ch.webp" alt="" class="responsiveImage" />
+      <a href="en.html" id="enLink">
+        <img src="img/en_menu.svg" alt="" class="upper-menu" />
+      </a>
+      <audio
+        id="enAudio"
+        src="サウンドファイルのパス.mp3"
+        preload="auto"
+      ></audio>
+      <a href="ja.html" id="chLink">
+        <img src="img/ja_menu.svg" alt="" class="down-menu" />
+      </a>
+      <audio
+        id="chAudio"
+        src="サウンドファイルのパス.mp3"
+        preload="auto"
+      ></audio>
+      <a href="">
+        <img src="img/ch_for_ramen.svg" alt="" class="for_ramen" />
+      </a>
+      <a href="">
+        <img src="img/ch_for_side_dish.svg" alt="" class="for_side_dish" />
+      </a>
+      <a href="">
+        <img src="img/ch_for_spicy_ramen.svg" alt="" class="for_spicy_ramen" />
+      </a>
+      <a href="">
+        <img src="img/ch_for_drinks.svg" alt="" class="for_drinks" />
+      </a>
     </div>
-    <map name="ImageMap">
-      <area
-        shape="circle"
-        coords="1960,1475,264"
-        href="en.html"
-        alt="英語メニュー"
-      />
-      <area
-        shape="circle"
-        coords="1960,1915,262"
-        href="index.html"
-        alt="日本語メニュー"
-      />
-    </map>
-    <script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
     <script src="js/index.js"></script>
+    <script>
+      // リンク要素と音声要素を取得
+      const enLink = document.getElementById("enLink");
+      const chLink = document.getElementById("chLink");
+      const enAudio = document.getElementById("enAudio");
+      const chAudio = document.getElementById("chAudio");
+
+      // 英語メニューがクリックされたときの処理
+      enLink.addEventListener("click", function (event) {
+        // 音声を最初から再生
+        enAudio.currentTime = 0;
+        enAudio.play();
+
+        // 少し遅延させてからページ遷移（音を聞かせるため）
+        event.preventDefault();
+        setTimeout(function () {
+          window.location.href = enLink.getAttribute("href");
+        }, 500); // 500ミリ秒後に遷移
+      });
+
+      // 中国語メニューがクリックされたときの処理
+      chLink.addEventListener("click", function (event) {
+        // 音声を最初から再生
+        chAudio.currentTime = 0;
+        chAudio.play();
+
+        // 少し遅延させてからページ遷移（音を聞かせるため）
+        event.preventDefault();
+        setTimeout(function () {
+          window.location.href = chLink.getAttribute("href");
+        }, 500); // 500ミリ秒後に遷移
+      });
+    </script>
   </body>
 </html>

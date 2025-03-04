@@ -3,30 +3,199 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>レスポンシブ対応クリッカブルマップ</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <title>自動ページ切り替えシステム</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #pageFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      #controls {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        z-index: 1000;
+        font-family: sans-serif;
+      }
+      button {
+        margin: 0 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      #timer {
+        margin-left: 10px;
+      }
+      .control-row {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+      }
+    </style>
   </head>
   <body>
-    <div class="responsive-container">
-      <img src="img/ja.webp" alt="" id="responsiveImage" usemap="#ImageMap" />
-      <div class="blink-overlay"></div>
+    <iframe id="pageFrame" src="ja.html"></iframe>
+
+    <div id="controls">
+      <div class="control-row">
+        <button id="toggleBtn" onclick="toggleRotation()">一時停止</button>
+        <span id="timer">次の切り替えまで: 10秒</span>
+      </div>
+      <div class="control-row">
+        <button onclick="changePage('ja.html')">日本語</button>
+        <button onclick="changePage('en.html')">英語</button>
+        <button onclick="changePage('ch.html')">中国語</button>
+      </div>
+      <div class="control-row">
+        <label for="intervalInput">切り替え間隔 (秒): </label>
+        <input
+          type="number"
+          id="intervalInput"
+          min="1"
+          value="10"
+          style="width: 60px"
+        />
+      </div>
+      <div class="control-row">
+        <button onclick="toggleControls()">コントロールを隠す</button>
+      </div>
     </div>
-    <map name="ImageMap">
-      <area
-        shape="circle"
-        coords="1960,1475,264"
-        href="en.html"
-        alt="英語メニュー"
-      />
-      <area
-        shape="circle"
-        coords="1960,1915,262"
-        href="ch.html"
-        alt="中国語メニュー"
-      />
-    </map>
-    <script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
-    <script src="js/index.js"></script>
+
+    <script>
+      // 設定
+      let pages = ["ja.html", "en.html", "ch.html"];
+      let currentPageIndex = 0;
+      let isRotating = true;
+      let intervalId = null;
+      let countdownId = null;
+      let secondsLeft = 10;
+      let controlsHidden = false;
+
+      // ページ読み込み時の初期化
+      window.onload = function () {
+        startRotation();
+      };
+
+      // ページ切り替え
+      function changePage(page) {
+        document.getElementById("pageFrame").src = page;
+        currentPageIndex = pages.indexOf(page);
+      }
+
+      // 次のページへ
+      function nextPage() {
+        currentPageIndex = (currentPageIndex + 1) % pages.length;
+        changePage(pages[currentPageIndex]);
+      }
+
+      // 自動切り替え開始
+      function startRotation() {
+        let interval =
+          parseInt(document.getElementById("intervalInput").value) * 1000;
+        if (interval < 1000) interval = 1000; // 最低1秒
+
+        secondsLeft = interval / 1000;
+
+        // タイマー更新
+        updateTimer();
+        countdownId = setInterval(updateTimer, 1000);
+
+        // ページ切り替え
+        intervalId = setInterval(function () {
+          nextPage();
+          secondsLeft = interval / 1000;
+        }, interval);
+
+        document.getElementById("toggleBtn").textContent = "一時停止";
+      }
+
+      // 自動切り替え停止
+      function stopRotation() {
+        clearInterval(intervalId);
+        clearInterval(countdownId);
+        intervalId = null;
+        countdownId = null;
+        document.getElementById("toggleBtn").textContent = "再開";
+      }
+
+      // 自動切り替えの開始/停止
+      function toggleRotation() {
+        if (isRotating) {
+          stopRotation();
+        } else {
+          startRotation();
+        }
+        isRotating = !isRotating;
+      }
+
+      // タイマー表示の更新
+      function updateTimer() {
+        document.getElementById(
+          "timer"
+        ).textContent = `次の切り替えまで: ${secondsLeft}秒`;
+        secondsLeft--;
+
+        if (secondsLeft < 0) {
+          secondsLeft = parseInt(
+            document.getElementById("intervalInput").value
+          );
+        }
+      }
+
+      // コントロールパネル表示/非表示
+      function toggleControls() {
+        const controls = document.getElementById("controls");
+        if (controlsHidden) {
+          controls.style.width = "auto";
+          controls.style.height = "auto";
+          controls.innerHTML = `
+                    <div class="control-row">
+                        <button id="toggleBtn" onclick="toggleRotation()">${
+                          isRotating ? "一時停止" : "再開"
+                        }</button>
+                        <span id="timer">次の切り替えまで: ${secondsLeft}秒</span>
+                    </div>
+                    <div class="control-row">
+                        <button onclick="changePage('ja.html')">日本語</button>
+                        <button onclick="changePage('en.html')">英語</button>
+                        <button onclick="changePage('ch.html')">中国語</button>
+                    </div>
+                    <div class="control-row">
+                        <label for="intervalInput">切り替え間隔 (秒): </label>
+                        <input type="number" id="intervalInput" min="1" value="${
+                          document.getElementById("intervalInput").value
+                        }" style="width: 60px;">
+                    </div>
+                    <div class="control-row">
+                        <button onclick="toggleControls()">コントロールを隠す</button>
+                    </div>
+                `;
+        } else {
+          controls.innerHTML =
+            '<button onclick="toggleControls()">コントロールを表示</button>';
+        }
+        controlsHidden = !controlsHidden;
+      }
+
+      // 間隔変更時の処理
+      document
+        .getElementById("intervalInput")
+        .addEventListener("change", function () {
+          if (isRotating) {
+            stopRotation();
+            startRotation();
+          }
+        });
+    </script>
   </body>
 </html>
