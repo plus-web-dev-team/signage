@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>レスポンシブ対応クリッカブルマップ</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <img src="img/header.svg" alt="" />
+    </header>
+    <div class="responsive-container">
+      <img src="img/ch_spicy_ramen.webp" alt="" class="responsiveImage" />
+
+      <div class="ch_ramen_buttonWrapper">
+        <a href="ch.html" id="enLink">
+          <img src="img/ch_rm.svg" alt="" />
+        </a>
+        <audio
+          id="enAudio"
+          src="サウンドファイルのパス.mp3"
+          preload="auto"
+        ></audio>
+        <a href="ch-side-dish.html">
+          <img src="img/ch_for_side_dish.svg" alt="" />
+        </a>
+        <a href="ch-ramen.html">
+          <img src="img/ch_for_ramen.svg" alt="" />
+        </a>
+        <a href="ch-drink.html">
+          <img src="img/ch_for_drinks.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <script src="js/index.js"></script>
+    <script>
+      // リンク要素と音声要素を取得
+      const enLink = document.getElementById("enLink");
+      const chLink = document.getElementById("chLink");
+      const enAudio = document.getElementById("enAudio");
+      const chAudio = document.getElementById("chAudio");
+
+      // 英語メニューがクリックされたときの処理
+      enLink.addEventListener("click", function (event) {
+        // 音声を最初から再生
+        enAudio.currentTime = 0;
+        enAudio.play();
+
+        // 少し遅延させてからページ遷移（音を聞かせるため）
+        event.preventDefault();
+        setTimeout(function () {
+          window.location.href = enLink.getAttribute("href");
+        }, 500); // 500ミリ秒後に遷移
+      });
+
+      // 中国語メニューがクリックされたときの処理
+      chLink.addEventListener("click", function (event) {
+        // 音声を最初から再生
+        chAudio.currentTime = 0;
+        chAudio.play();
+
+        // 少し遅延させてからページ遷移（音を聞かせるため）
+        event.preventDefault();
+        setTimeout(function () {
+          window.location.href = chLink.getAttribute("href");
+        }, 500); // 500ミリ秒後に遷移
+      });
+    </script>
+  </body>
+</html>

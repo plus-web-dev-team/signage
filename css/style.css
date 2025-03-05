@@ -155,3 +155,19 @@
 	right: -3%;
 	transform: translate(3%, -38%);
 }
+
+.ch_ramen_buttonWrapper {
+	width: auto;
+	height: auto;
+	position: absolute;
+	z-index: 99;
+	top: 50%;
+	right: -2%;
+	transform: translate(2%, -35%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 37px;
+	margin-top: 20px;
+}
