@@ -16,19 +16,11 @@
       <a href="ch.html" id="enLink">
         <img src="img/ch_menu.svg" alt="" class="upper-menu" />
       </a>
-      <audio
-        id="enAudio"
-        src="サウンドファイルのパス.mp3"
-        preload="auto"
-      ></audio>
+      <audio id="enAudio" src="audio/nihao.mp3" preload="auto"></audio>
       <a href="ja.html" id="chLink">
         <img src="img/ja_menu.svg" alt="" class="down-menu" />
       </a>
-      <audio
-        id="chAudio"
-        src="サウンドファイルのパス.mp3"
-        preload="auto"
-      ></audio>
+      <audio id="chAudio" src="audio/irassyaimase.wav" preload="auto"></audio>
       <a href="en-ramen.html">
         <img src="img/for_ramen.svg" alt="" class="for_ramen" />
       </a>
@@ -56,11 +48,13 @@
         enAudio.currentTime = 0;
         enAudio.play();
 
-        // 少し遅延させてからページ遷移（音を聞かせるため）
+        // ページ遷移を防止
         event.preventDefault();
-        setTimeout(function () {
+
+        // 音声の再生が終了したらページ遷移
+        enAudio.addEventListener("ended", function () {
           window.location.href = enLink.getAttribute("href");
-        }, 500); // 500ミリ秒後に遷移
+        });
       });
 
       // 中国語メニューがクリックされたときの処理
@@ -69,11 +63,13 @@
         chAudio.currentTime = 0;
         chAudio.play();
 
-        // 少し遅延させてからページ遷移（音を聞かせるため）
+        // ページ遷移を防止
         event.preventDefault();
-        setTimeout(function () {
+
+        // 音声の再生が終了したらページ遷移
+        chAudio.addEventListener("ended", function () {
           window.location.href = chLink.getAttribute("href");
-        }, 500); // 500ミリ秒後に遷移
+        });
       });
     </script>
   </body>
