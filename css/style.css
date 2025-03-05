@@ -57,8 +57,8 @@
 }
 
 .upper-menu {
-	width: 600px;
-	height: 600px;
+	width: 250px;
+	height: 250px;
 	position: absolute;
 	z-index: 99;
 	top: 30%;
@@ -67,8 +67,8 @@
 }
 
 .down-menu {
-	width: 600px;
-	height: 600px;
+	width: 250px;
+	height: 250px;
 	position: absolute;
 	z-index: 99;
 	top: 45%;
@@ -77,8 +77,8 @@
 }
 
 .runch-menu {
-	width: 711px;
-	height: 90px;
+	width: 355px;
+	height: 45px;
 	position: absolute;
 	z-index: 99;
 	bottom: 10%;
@@ -87,8 +87,8 @@
 }
 
 .night-menu {
-	width: 711px;
-	height: 90px;
+	width: 355px;
+	height: 45px;
 	position: absolute;
 	z-index: 99;
 	bottom: 10%;
@@ -97,8 +97,8 @@
 }
 
 .side-menu {
-	width: 285px;
-	height: 285px;
+	width: 140px;
+	height: 140px;
 	position: absolute;
 	z-index: 99;
 	bottom: 1%;
@@ -107,8 +107,8 @@
 }
 
 .for_ramen {
-	width: 326px;
-	height: 326px;
+	width: 150px;
+	height: 150px;
 	position: absolute;
 	z-index: 99;
 	top: 60%;
@@ -117,8 +117,8 @@
 }
 
 .for_side_dish {
-	width: 326px;
-	height: 326px;
+	width: 150px;
+	height: 150px;
 	position: absolute;
 	z-index: 99;
 	top: 70%;
@@ -127,8 +127,8 @@
 }
 
 .for_spicy_ramen {
-	width: 326px;
-	height: 326px;
+	width: 150px;
+	height: 150px;
 	position: absolute;
 	z-index: 99;
 	top: 80%;
@@ -137,8 +137,8 @@
 }
 
 .for_drinks {
-	width: 326px;
-	height: 326px;
+	width: 150px;
+	height: 150px;
 	position: absolute;
 	z-index: 99;
 	top: 90%;
@@ -147,8 +147,8 @@
 }
 
 .return_menu {
-	width: 500px;
-	height: 500px;
+	width: 250px;
+	height: 250px;
 	position: absolute;
 	z-index: 99;
 	top: 38%;
@@ -156,18 +156,27 @@
 	transform: translate(3%, -38%);
 }
 
+.return_menu_chlid {
+	width: 250px !important;
+	height: 250px !important;
+}
+
 .ch_ramen_buttonWrapper {
 	width: auto;
 	height: auto;
 	position: absolute;
 	z-index: 99;
-	top: 50%;
+	top: 55%;
 	right: -2%;
-	transform: translate(2%, -35%);
+	transform: translate(2%, -55%);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 37px;
+	gap: 20px;
 	margin-top: 20px;
+	& img {
+		width: 150px;
+		height: 150px;
+	}
 }
