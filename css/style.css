@@ -20,11 +20,11 @@
 }
 
 .blink {
-	position: absolute; /* 絶対位置を指定 */
-	border-radius: 50%; /* 丸くするために半径を指定 */
-	background-color: rgba(255, 255, 0, 0.3); /* 光る色（透明度を調整） */
-	overflow: hidden; /* 内容がはみ出さないようにする */
-	pointer-events: none; /* マウスイベントを無視 */
+	position: absolute;
+	border-radius: 50%;
+	background-color: rgba(255, 255, 0, 0.3);
+	overflow: hidden;
+	pointer-events: none;
 }
 
 .blink6 {
@@ -144,4 +144,14 @@
 	top: 90%;
 	right: 0;
 	transform: translate(0%, -90%);
+}
+
+.return_menu {
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	z-index: 99;
+	top: 38%;
+	right: -3%;
+	transform: translate(3%, -38%);
 }
