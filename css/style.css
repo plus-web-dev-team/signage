@@ -188,5 +188,5 @@ a img {
 }
 
 a:active img {
-	transform: scale(0.99);
+	transform: scale(0.98);
 }
