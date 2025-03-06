@@ -22,11 +22,6 @@
         <a href="ch.html" id="enLink">
           <img src="img/ch_rm.svg" alt="" class="return_menu_chlid" />
         </a>
-        <audio
-          id="enAudio"
-          src="サウンドファイルのパス.mp3"
-          preload="auto"
-        ></audio>
         <a href="ch-ramen.html">
           <img src="img/ch_for_ramen.svg" alt="" />
         </a>
@@ -38,39 +33,5 @@
         </a>
       </div>
     </div>
-    <script src="js/index.js"></script>
-    <script>
-      // リンク要素と音声要素を取得
-      const enLink = document.getElementById("enLink");
-      const chLink = document.getElementById("chLink");
-      const enAudio = document.getElementById("enAudio");
-      const chAudio = document.getElementById("chAudio");
-
-      // 英語メニューがクリックされたときの処理
-      enLink.addEventListener("click", function (event) {
-        // 音声を最初から再生
-        enAudio.currentTime = 0;
-        enAudio.play();
-
-        // 少し遅延させてからページ遷移（音を聞かせるため）
-        event.preventDefault();
-        setTimeout(function () {
-          window.location.href = enLink.getAttribute("href");
-        }, 500); // 500ミリ秒後に遷移
-      });
-
-      // 中国語メニューがクリックされたときの処理
-      chLink.addEventListener("click", function (event) {
-        // 音声を最初から再生
-        chAudio.currentTime = 0;
-        chAudio.play();
-
-        // 少し遅延させてからページ遷移（音を聞かせるため）
-        event.preventDefault();
-        setTimeout(function () {
-          window.location.href = chLink.getAttribute("href");
-        }, 500); // 500ミリ秒後に遷移
-      });
-    </script>
   </body>
 </html>

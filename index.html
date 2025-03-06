@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>自動ページ切り替えシステム</title>
+    <title>デジタルサイネージ - 自動ページ切り替えシステム</title>
     <style>
       body,
       html {
@@ -16,6 +16,10 @@
         width: 100%;
         height: 100%;
         border: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10; /* オーバーレイより下のz-indexを設定 */
       }
       #controls {
         position: fixed;
@@ -25,7 +29,7 @@
         padding: 10px;
         border-radius: 5px;
         color: white;
-        z-index: 1000;
+        z-index: 2000;
         font-family: sans-serif;
       }
       button {
@@ -41,10 +45,47 @@
         display: flex;
         align-items: center;
       }
+      #statusMessage {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        z-index: 2000;
+        font-family: sans-serif;
+        display: none;
+      }
+      #interactionOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000; /* iframeより上、controlsより下 */
+        display: none; /* デフォルトでは非表示 */
+        cursor: pointer;
+        background-color: transparent;
+        pointer-events: auto;
+      }
     </style>
   </head>
   <body>
-    <iframe id="pageFrame" src="ja.html"></iframe>
+    <!-- ステータスメッセージを最上位に -->
+    <div id="statusMessage"></div>
+
+    <!-- iframeをラップする要素 -->
+    <div
+      id="iframeWrapper"
+      style="position: relative; width: 100%; height: 100%"
+    >
+      <!-- オーバーレイ（コンテンツ操作が無効の時のみ表示） -->
+      <div id="interactionOverlay"></div>
+
+      <!-- iframe -->
+      <iframe id="pageFrame" src="ja.html" allowtransparency="true"></iframe>
+    </div>
 
     <div id="controls">
       <div class="control-row">
@@ -67,135 +108,30 @@
         />
       </div>
       <div class="control-row">
+        <label for="idleTimeInput">アイドル時間 (秒): </label>
+        <input
+          type="number"
+          id="idleTimeInput"
+          min="5"
+          value="30"
+          style="width: 60px"
+        />
+      </div>
+      <div class="control-row">
         <button onclick="toggleControls()">コントロールを隠す</button>
       </div>
+      <div class="control-row">
+        <label>
+          <input
+            type="checkbox"
+            id="contentInteractionToggle"
+            onclick="toggleContentInteraction()"
+            checked
+          />
+          コンテンツ操作を有効にする
+        </label>
+      </div>
     </div>
-
-    <script>
-      // 設定
-      let pages = ["ja.html", "en.html", "ch.html"];
-      let currentPageIndex = 0;
-      let isRotating = true;
-      let intervalId = null;
-      let countdownId = null;
-      let secondsLeft = 10;
-      let controlsHidden = false;
-
-      // ページ読み込み時の初期化
-      window.onload = function () {
-        startRotation();
-      };
-
-      // ページ切り替え
-      function changePage(page) {
-        document.getElementById("pageFrame").src = page;
-        currentPageIndex = pages.indexOf(page);
-      }
-
-      // 次のページへ
-      function nextPage() {
-        currentPageIndex = (currentPageIndex + 1) % pages.length;
-        changePage(pages[currentPageIndex]);
-      }
-
-      // 自動切り替え開始
-      function startRotation() {
-        let interval =
-          parseInt(document.getElementById("intervalInput").value) * 1000;
-        if (interval < 1000) interval = 1000; // 最低1秒
-
-        secondsLeft = interval / 1000;
-
-        // タイマー更新
-        updateTimer();
-        countdownId = setInterval(updateTimer, 1000);
-
-        // ページ切り替え
-        intervalId = setInterval(function () {
-          nextPage();
-          secondsLeft = interval / 1000;
-        }, interval);
-
-        document.getElementById("toggleBtn").textContent = "一時停止";
-      }
-
-      // 自動切り替え停止
-      function stopRotation() {
-        clearInterval(intervalId);
-        clearInterval(countdownId);
-        intervalId = null;
-        countdownId = null;
-        document.getElementById("toggleBtn").textContent = "再開";
-      }
-
-      // 自動切り替えの開始/停止
-      function toggleRotation() {
-        if (isRotating) {
-          stopRotation();
-        } else {
-          startRotation();
-        }
-        isRotating = !isRotating;
-      }
-
-      // タイマー表示の更新
-      function updateTimer() {
-        document.getElementById(
-          "timer"
-        ).textContent = `次の切り替えまで: ${secondsLeft}秒`;
-        secondsLeft--;
-
-        if (secondsLeft < 0) {
-          secondsLeft = parseInt(
-            document.getElementById("intervalInput").value
-          );
-        }
-      }
-
-      // コントロールパネル表示/非表示
-      function toggleControls() {
-        const controls = document.getElementById("controls");
-        if (controlsHidden) {
-          controls.style.width = "auto";
-          controls.style.height = "auto";
-          controls.innerHTML = `
-                    <div class="control-row">
-                        <button id="toggleBtn" onclick="toggleRotation()">${
-                          isRotating ? "一時停止" : "再開"
-                        }</button>
-                        <span id="timer">次の切り替えまで: ${secondsLeft}秒</span>
-                    </div>
-                    <div class="control-row">
-                        <button onclick="changePage('ja.html')">日本語</button>
-                        <button onclick="changePage('en.html')">英語</button>
-                        <button onclick="changePage('ch.html')">中国語</button>
-                    </div>
-                    <div class="control-row">
-                        <label for="intervalInput">切り替え間隔 (秒): </label>
-                        <input type="number" id="intervalInput" min="1" value="${
-                          document.getElementById("intervalInput").value
-                        }" style="width: 60px;">
-                    </div>
-                    <div class="control-row">
-                        <button onclick="toggleControls()">コントロールを隠す</button>
-                    </div>
-                `;
-        } else {
-          controls.innerHTML =
-            '<button onclick="toggleControls()">コントロールを表示</button>';
-        }
-        controlsHidden = !controlsHidden;
-      }
-
-      // 間隔変更時の処理
-      document
-        .getElementById("intervalInput")
-        .addEventListener("change", function () {
-          if (isRotating) {
-            stopRotation();
-            startRotation();
-          }
-        });
-    </script>
+    <script src="js/index.js"></script>
   </body>
 </html>
