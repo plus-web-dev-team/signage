@@ -40,5 +40,12 @@
       </a>
     </div>
     <script src="js/voice.js"></script>
+    <script>
+      // ページのどこでもクリックを検知して親ウィンドウに通知する
+      document.addEventListener("click", function (event) {
+        // 親ウィンドウにメッセージを送信
+        window.parent.postMessage("iframeClicked", "*");
+      });
+    </script>
   </body>
 </html>

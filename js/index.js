@@ -23,6 +23,9 @@ window.onload = () => {
 	// オーバーレイの設定
 	setupOverlay();
 
+	// クリックイベントの設定
+	setupClickEvents();
+
 	// 自動切り替えとアイドルタイマーを開始
 	startRotation();
 	startIdleTimer();
@@ -59,6 +62,34 @@ window.onload = () => {
 	}
 };
 
+// クリックイベントの設定
+function setupClickEvents() {
+	// iframeラッパーでのクリックを検知
+	const iframeWrapper = document.getElementById("iframeWrapper");
+	if (iframeWrapper) {
+		iframeWrapper.addEventListener("click", function (e) {
+			// もしクリックがコントロールパネル上でなければ
+			if (!e.target.closest("#controls")) {
+				handleIframeWrapperClick(e);
+			}
+		});
+	}
+
+	// iframe内のクリックを検知するための別のアプローチ
+	window.addEventListener("message", function (event) {
+		if (event.data === "iframeClicked") {
+			// iframe内でのクリックを検知
+			if (isRotating) {
+				toggleRotation();
+				showStatusMessage(
+					"iframeコンテンツがクリックされました - 自動切り替えは一時停止中",
+				);
+			}
+			resetIdleTimer();
+		}
+	});
+}
+
 // 画面全体のオーバーレイを設定
 function setupOverlay() {
 	const overlay = document.getElementById("interactionOverlay");
@@ -68,21 +99,16 @@ function setupOverlay() {
 	}
 
 	// 既存のイベントリスナーをクリア
-	overlay.removeEventListener("click", handleOverlayClick);
+	overlay.replaceWith(overlay.cloneNode(true));
+
+	// 新しいオーバーレイ要素を取得
+	const newOverlay = document.getElementById("interactionOverlay");
 
 	// 新しいイベントリスナーを追加
-	overlay.addEventListener("click", handleOverlayClick);
+	newOverlay.addEventListener("click", handleOverlayClick);
 
 	// コンテンツ操作モードに基づいて表示・非表示を設定
 	updateOverlayVisibility();
-
-	// iframe要素を取得
-	const iframe = document.getElementById("pageFrame");
-	if (iframe) {
-		// iframeラッパーへのクリックイベントリスナーを設定
-		iframe.removeEventListener("click", handleIframeWrapperClick);
-		iframe.addEventListener("click", handleIframeWrapperClick);
-	}
 }
 
 // オーバーレイの表示状態を更新
@@ -103,6 +129,8 @@ function updateOverlayVisibility() {
 
 // オーバーレイクリック時の処理
 function handleOverlayClick(e) {
+	console.log("オーバーレイがクリックされました");
+
 	// デフォルトの動作を停止
 	e.preventDefault();
 	e.stopPropagation();
@@ -119,6 +147,13 @@ function handleOverlayClick(e) {
 
 // iframeラッパーのクリックハンドラ
 function handleIframeWrapperClick(e) {
+	console.log("iframeラッパーがクリックされました");
+
+	// コントロールパネル内のクリックは無視
+	if (e.target.closest("#controls")) {
+		return;
+	}
+
 	// コンテンツ操作モードが無効の場合のみイベントを処理
 	if (!contentInteractionEnabled) {
 		// デフォルトのイベント処理を停止
@@ -128,23 +163,20 @@ function handleIframeWrapperClick(e) {
 		// 自動切り替え中ならば一時停止
 		if (isRotating) {
 			toggleRotation();
-			showStatusMessage("iframeクリックを検知 - 自動切り替えは一時停止中");
+			showStatusMessage("画面クリックを検知 - 自動切り替えは一時停止中");
 		}
 
 		// アイドルタイマーをリセット
 		resetIdleTimer();
 	} else {
-		// コンテンツ操作モードの場合は、アイドルタイマーをリセットするのみ
-		resetIdleTimer();
-
-		// コンテンツ操作モード有効時に自動切り替えを停止するオプション
-		// ユースケースに応じてコメントを外す
-		/*
+		// コンテンツ操作モードの場合でも、自動切り替えを停止する
 		if (isRotating) {
 			toggleRotation();
 			showStatusMessage("コンテンツ操作中 - 自動切り替えは一時停止中");
 		}
-		*/
+
+		// アイドルタイマーをリセット
+		resetIdleTimer();
 	}
 }
 
