@@ -19,7 +19,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 10; /* オーバーレイより下のz-indexを設定 */
+        z-index: 10;
       }
       #controls {
         position: fixed;
@@ -29,7 +29,7 @@
         padding: 10px;
         border-radius: 5px;
         color: white;
-        z-index: 2000;
+        z-index: 0;
         font-family: sans-serif;
       }
       button {
@@ -87,7 +87,7 @@
       <iframe id="pageFrame" src="ja.html" allowtransparency="true"></iframe>
     </div>
 
-    <!-- <div id="controls">
+    <div id="controls">
       <div class="control-row">
         <button id="toggleBtn" onclick="toggleRotation()">一時停止</button>
         <span id="timer">次の切り替えまで: 10秒</span>
@@ -131,7 +131,7 @@
           コンテンツ操作を有効にする
         </label>
       </div>
-    </div> -->
+    </div>
     <script src="js/index.js"></script>
   </body>
 </html>
